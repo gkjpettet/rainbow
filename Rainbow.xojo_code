@@ -156,6 +156,9 @@ Protected Module Rainbow
 	#tag Constant, Name = UNDERLINE_ON, Type = String, Dynamic = False, Default = \"4", Scope = Private
 	#tag EndConstant
 
+	#tag Constant, Name = VERSION, Type = Text, Dynamic = False, Default = \"0.2", Scope = Protected
+	#tag EndConstant
+
 
 	#tag Enum, Name = Colour, Type = Integer, Flags = &h0
 		black
