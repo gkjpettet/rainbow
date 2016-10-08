@@ -1,6 +1,12 @@
 #tag Module
 Protected Module Rainbow
 	#tag Method, Flags = &h1
+		Protected Function Bold(phrase as Text) As String
+		  Return Formatted(phrase, True)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
 		Protected Function Colourise(phrase as Text, foreColor as Rainbow.Colour, backColor as Rainbow.Colour = Rainbow.Colour.Default) As String
 		  Return Rainbow.Formatted(phrase, False, False, foreColor, backColor)
 		End Function
@@ -59,6 +65,12 @@ Protected Module Rainbow
 		  u = If(underline, UNDERLINE_ON, UNDERLINE_OFF)
 		  
 		  Return chrb(27) + "[" + fc + ";" + bc + ";" + b + ";" + u + "m"  + phrase + chrb(27) + "[0m"
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Function Underlined(phrase as Text) As String
+		  Return Formatted(phrase, False, True)
 		End Function
 	#tag EndMethod
 

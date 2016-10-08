@@ -25,9 +25,12 @@ Inherits ConsoleApplication
 		  Print Rainbow.Formatted("Default on white", False, False, Colour.default, Colour.white)
 		  Print Rainbow.Formatted("Default on yellow", False, False, Colour.default, Colour.yellow)
 		  
+		  
 		  Print ""
 		  Print Formatted("Bold", True, False) + " and " + Formatted("underlined", False, True) + _
 		  " are also supported. " + Formatted("Even together.", True, True)
+		  Print "Rainbow also provides quick shortcuts for " + Bold("bold") + _
+		  " and " + Underlined("underlined") + " text too."
 		End Function
 	#tag EndEvent
 
