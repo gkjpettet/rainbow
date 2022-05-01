@@ -13,7 +13,11 @@ Inherits ConsoleApplication
 		  
 		  Print("")
 		  
-		  Print "This is " + Rainbow.CLIBold("bold")
+		  Print "This is " + Rainbow.CLIBold("bold") + " and " + Rainbow.CLIUnderlined("underlined") + " I tell you"
+		  Print Rainbow.CLIInverted("This is inverted")
+		  
+		  Var s As String = "Red, underlined"
+		  Print s.CLIFormatted(False, True, False, 124)
 		End Function
 	#tag EndEvent
 

@@ -4,7 +4,7 @@ Protected Module Rainbow
 		Function CLIBackcolor(Extends s As String, colourCode As Integer) As String
 		  /// Wraps `s` in a backcolour of value `colorCode` suitable for use in a CLI tool. `colourCode` should be `0 - 255`.
 		  
-		  Return s.CLIFormatted(False, False, -1, colourCode)
+		  Return s.CLIFormatted(False, False, False, -1, colourCode)
 		End Function
 	#tag EndMethod
 
@@ -28,12 +28,12 @@ Protected Module Rainbow
 		Function CLIForecolor(Extends s As String, colourCode As Integer) As String
 		  /// Wraps `s` in a forecolour of value `colorCode` suitable for use in a CLI tool. `colourCode` should be `0 - 255`.
 		  
-		  Return s.CLIFormatted(False, False, colourCode)
+		  Return s.CLIFormatted(False, False, False, colourCode)
 		End Function
 	#tag EndMethod
 
 	#tag Method, Flags = &h0, Description = 52657475726E73206120666F726D61747465642076657273696F6E206F662060736020666F72206F757470757474696E6720746F207374616E64617264206F75742E
-		Function CLIFormatted(Extends s As String, bold As Boolean = False, underline As Boolean = False, foreColor As Integer = -1, backColor As Integer = -1) As String
+		Function CLIFormatted(Extends s As String, bold As Boolean = False, underlined As Boolean = False, inverted As Boolean = False, foreColor As Integer = -1, backColor As Integer = -1) As String
 		  /// Returns a formatted version of `s` for outputting to standard out.
 		  ///
 		  /// Both `foreColor` and `backColor` should be `0 - 255` if specified.
@@ -58,11 +58,28 @@ Protected Module Rainbow
 		    tmp.Add(ESC + "48;5;" + backColor.ToString + "m")
 		  End If
 		  tmp.Add(ESC + If(bold, BOLD_ON, BOLD_OFF) + "m")
-		  tmp.Add(ESC + If(underline, UNDERLINE_ON, UNDERLINE_OFF) + "m")
+		  tmp.Add(ESC + If(underlined, UNDERLINE_ON, UNDERLINE_OFF) + "m")
+		  tmp.Add(ESC + If(inverted, INVERTED_ON, INVERTED_OFF) + "m")
 		  tmp.Add(s)
 		  tmp.Add(Reset)
 		  
 		  Return String.FromArray(tmp, "")
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0, Description = 4D616B65732060736020696E766572746564202F20726576657273656420666F722075736520696E206120434C4920746F6F6C2E
+		Function CLIInverted(Extends s As String) As String
+		  /// Makes `s` inverted / reversed for use in a CLI tool.
+		  
+		  Return s.CLIFormatted(False, False, True)
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0, Description = 4D616B65732060736020696E766572746564202F20726576657273656420666F722075736520696E206120434C4920746F6F6C2E
+		Function CLIInverted(s As String) As String
+		  /// Makes `s` inverted / reversed for use in a CLI tool.
+		  
+		  Return s.CLIFormatted(False, False, True)
 		End Function
 	#tag EndMethod
 
@@ -104,6 +121,12 @@ Protected Module Rainbow
 	#tag EndConstant
 
 	#tag Constant, Name = FORECOLOR_DEFAULT, Type = String, Dynamic = False, Default = \"39", Scope = Private
+	#tag EndConstant
+
+	#tag Constant, Name = INVERTED_OFF, Type = String, Dynamic = False, Default = \"27", Scope = Private
+	#tag EndConstant
+
+	#tag Constant, Name = INVERTED_ON, Type = String, Dynamic = False, Default = \"7", Scope = Private
 	#tag EndConstant
 
 	#tag Constant, Name = UNDERLINE_OFF, Type = String, Dynamic = False, Default = \"24", Scope = Private
