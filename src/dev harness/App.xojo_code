@@ -5,22 +5,43 @@ Inherits ConsoleApplication
 		Function Run(args() as String) As Integer
 		  #Pragma Unused args
 		  
-		  Print256ForegroundColours
+		  'LoadingDemo
 		  
-		  Print("")
-		  
-		  Print256BackgroundColours
-		  
-		  Print("")
-		  
-		  Print "This is " + Rainbow.CLIBold("bold") + " and " + Rainbow.CLIUnderlined("underlined") + " I tell you"
-		  Print Rainbow.CLIInverted("This is inverted")
-		  
-		  Var s As String = "Red, underlined"
-		  Print s.CLIFormatted(False, True, False, 124)
+		  ' Print256ForegroundColours
+		  ' 
+		  ' Print("")
+		  ' 
+		  ' Print256BackgroundColours
+		  ' 
+		  ' Print("")
+		  ' 
+		  ' Print "This is " + Rainbow.CLIBold("bold") + " and " + Rainbow.CLIUnderlined("underlined") + " I tell you"
+		  ' Print Rainbow.CLIInverted("This is inverted")
+		  ' 
+		  ' Var s As String = "Red, underlined"
+		  ' Print s.CLIFormatted(False, True, False, 124)
 		End Function
 	#tag EndEvent
 
+
+	#tag Method, Flags = &h0, Description = 53686F77732061206C6F6164696E672070657263656E7461676520696E64696361746F722E
+		Sub LoadingDemo()
+		  /// Shows a loading percentage indicator.
+		  
+		  Print("Loading...")
+		  
+		  For i As Integer = 0 To 100
+		    App.DoEvents(20)
+		    Rainbow.CursorLeft(1000)
+		    stdout.Write(i.ToString + "%")
+		    stdout.Flush
+		  Next i
+		  
+		  Print("")
+		  Print("Done")
+		  
+		End Sub
+	#tag EndMethod
 
 	#tag Method, Flags = &h0, Description = 5072696E747320616C6C20323536206261636B67726F756E6420636F6C6F75727320746F20746865207465726D696E616C2E
 		Sub Print256BackgroundColours()

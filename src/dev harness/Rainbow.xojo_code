@@ -1,5 +1,29 @@
 #tag Module
 Protected Module Rainbow
+	#tag Method, Flags = &h1, Description = 436C6561727320746865206C696E652074686520637572736F722069732063757272656E746C79206F6E20696E20706173736564206F75747075742073747265616D2C2064656661756C74696E6720746F207374646F75742E
+		Protected Sub ClearLine(where As StandardOutputStream = Nil)
+		  /// Clears the line the cursor is currently on in passed output stream, defaulting to stdout.
+		  
+		  If where = Nil Then where = stdout
+		  
+		  where.Write(ESC + "2K")
+		  where.Flush
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h1, Description = 436C656172732074686520706173736564206F75747075742073747265616D2C2064656661756C74696E6720746F207374646F75742E
+		Protected Sub ClearScreen(where As StandardOutputStream = Nil)
+		  /// Clears the passed output stream, defaulting to stdout.
+		  
+		  If where = Nil Then where = stdout
+		  
+		  where.Write(ESC + "2J")
+		  where.Flush
+		  
+		End Sub
+	#tag EndMethod
+
 	#tag Method, Flags = &h0, Description = 57726170732060736020696E2061206261636B636F6C6F7572206F662076616C75652060636F6C6F72436F646560207375697461626C6520666F722075736520696E206120434C4920746F6F6C2E2060636F6C6F7572436F6465602073686F756C64206265206030202D20323535602E
 		Function CLIBackcolor(Extends s As String, colourCode As Integer) As String
 		  /// Wraps `s` in a backcolour of value `colorCode` suitable for use in a CLI tool. `colourCode` should be `0 - 255`.
@@ -99,6 +123,82 @@ Protected Module Rainbow
 		End Function
 	#tag EndMethod
 
+	#tag Method, Flags = &h1, Description = 4D6F7665732074686520637572736F7220696E20607768657265602060706C616365736020646F776E2E2044656661756C747320746F205374644F75742E
+		Protected Sub CursorDown(places As Integer = 1, where As StandardOutputStream = Nil)
+		  /// Moves the cursor in `where` `places` down. Defaults to StdOut.
+		  ///
+		  /// `places` should be >= 0.
+		  
+		  CursorMove(CursorDirections.Down_, places, where)
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h1, Description = 4D6F7665732074686520637572736F7220696E20607768657265602060706C6163657360206C6566742E2044656661756C747320746F205374644F75742E
+		Protected Sub CursorLeft(places As Integer = 1, where As StandardOutputStream = Nil)
+		  /// Moves the cursor in `where` `places` left. Defaults to StdOut.
+		  ///
+		  /// `places` should be >= 0.
+		  
+		  CursorMove(CursorDirections.Left_, places, where)
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h21, Description = 4D6F7665732074686520637572736F7220696E20607768657265602060706C616365736020696E2074686520646972656374696F6E207370656369666965642E2044656661756C747320746F205374644F75742E
+		Private Sub CursorMove(cursorDirection As Rainbow.CursorDirections, places As Integer = 1, where As StandardOutputStream = Nil)
+		  /// Moves the cursor in `where` `places` in the direction specified. Defaults to StdOut.
+		  ///
+		  /// `places` should be >= 0.
+		  
+		  // Default to stdout.
+		  If where = Nil Then where = stdout
+		  
+		  // Sanity check.
+		  If places < 1 Then
+		    Raise New InvalidArgumentException("Must move the cursor >= 0 places.")
+		  End If
+		  
+		  Var direction As String
+		  Select Case cursorDirection
+		  Case Rainbow.CursorDirections.Up_
+		    direction = "A"
+		  Case Rainbow.CursorDirections.Down_
+		    direction = "B"
+		  Case Rainbow.CursorDirections.Right_
+		    direction = "C"
+		  Case Rainbow.CursorDirections.Left_
+		    direction = "D"
+		  End Select
+		  
+		  where.Write(ESC + places.ToString + direction)
+		  where.Flush
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h1, Description = 4D6F7665732074686520637572736F7220696E20607768657265602060706C61636573602072696768742E2044656661756C747320746F205374644F75742E
+		Protected Sub CursorRight(places As Integer = 1, where As StandardOutputStream = Nil)
+		  /// Moves the cursor in `where` `places` right. Defaults to StdOut.
+		  ///
+		  /// `places` should be >= 0.
+		  
+		  CursorMove(CursorDirections.Right_, places, where)
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h1, Description = 4D6F7665732074686520637572736F7220696E20607768657265602060706C61636573602075702E2044656661756C747320746F205374644F75742E
+		Protected Sub CursorUp(places As Integer = 1, where As StandardOutputStream = Nil)
+		  /// Moves the cursor in `where` `places` up. Defaults to StdOut.
+		  ///
+		  /// `places` should be >= 0.
+		  
+		  CursorMove(CursorDirections.Up_, places, where)
+		  
+		End Sub
+	#tag EndMethod
+
 	#tag Method, Flags = &h1, Description = 54686520414E5349207265736574206573636170652073657175656E636520746F2070757420746865207465726D696E616C206261636B20746F206974732064656661756C742073657474696E67732E
 		Protected Function Reset() As String
 		  /// The ANSI reset escape sequence to put the terminal back to its default settings.
@@ -134,6 +234,14 @@ Protected Module Rainbow
 
 	#tag Constant, Name = UNDERLINE_ON, Type = String, Dynamic = False, Default = \"4", Scope = Private
 	#tag EndConstant
+
+
+	#tag Enum, Name = CursorDirections, Type = Integer, Flags = &h21
+		Left_
+		  Right_
+		  Up_
+		Down_
+	#tag EndEnum
 
 
 End Module
