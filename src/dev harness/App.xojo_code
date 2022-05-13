@@ -5,21 +5,27 @@ Inherits ConsoleApplication
 		Function Run(args() as String) As Integer
 		  #Pragma Unused args
 		  
-		  'LoadingDemo
+		  Rainbow.Initialise
 		  
-		  ' Print256ForegroundColours
-		  ' 
-		  ' Print("")
-		  ' 
-		  ' Print256BackgroundColours
-		  ' 
-		  ' Print("")
-		  ' 
-		  ' Print "This is " + Rainbow.CLIBold("bold") + " and " + Rainbow.CLIUnderlined("underlined") + " I tell you"
-		  ' Print Rainbow.CLIInverted("This is inverted")
-		  ' 
-		  ' Var s As String = "Red, underlined"
-		  ' Print s.CLIFormatted(False, True, False, 124)
+		  LoadingDemo
+		  
+		  Print256ForegroundColours
+		  
+		  Print("")
+		  
+		  Print256BackgroundColours
+		  
+		  Print("")
+		  
+		  Print "This is " + Rainbow.CLIBold("bold") + " and " + Rainbow.CLIUnderlined("underlined") + " I tell you"
+		  Print Rainbow.CLIInverted("This is inverted")
+		  
+		  Var s As String = "Red, underlined"
+		  Print s.CLIFormatted(False, True, False, 124)
+		  
+		  While True
+		    App.DoEvents
+		  Wend
 		End Function
 	#tag EndEvent
 

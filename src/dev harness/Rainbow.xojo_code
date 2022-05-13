@@ -250,6 +250,31 @@ Protected Module Rainbow
 		End Sub
 	#tag EndMethod
 
+	#tag Method, Flags = &h1
+		Protected Sub Initialise()
+		  /// Initialise the Rainbow module.
+		  
+		  // Enable ANSI escape code sequence processing in Windows Command Prompt.
+		  // Full credit to Lawrence Johnson: 
+		  // https://forum.xojo.com/t/determine-shell-terminal-running-in/70187/3
+		  
+		  #If TargetWindows Then
+		    Declare Function GetStdHandle Lib "Kernel32" (HandleType As Integer) As Integer
+		    Declare Function GetConsoleMode Lib "Kernel32" (SourceHandle As Integer, ByRef Options as Integer) As Integer
+		    Declare Function SetConsoleMode Lib "Kernel32" (SourceHandle As Integer, Options as Integer) As Integer
+		    Const STD_OUTPUT_HANDLE = -11
+		    Const ENABLE_VIRTUAL_TERMINAL_PROCESSING = &h0004
+		    
+		    Var h, cOpts As Integer
+		    h = GetStdHandle(STD_OUTPUT_HANDLE)
+		    Call GetConsoleMode(h, cOpts)
+		    cOpts = (cOpts Or ENABLE_VIRTUAL_TERMINAL_PROCESSING)
+		    Call SetConsoleMode(h, cOpts)
+		  #EndIf
+		  
+		End Sub
+	#tag EndMethod
+
 	#tag Method, Flags = &h1, Description = 54686520414E5349207265736574206573636170652073657175656E636520746F2070757420746865207465726D696E616C206261636B20746F206974732064656661756C742073657474696E67732E
 		Protected Function Reset() As String
 		  /// The ANSI reset escape sequence to put the terminal back to its default settings.
